@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "222187166807",
+    "project_id": "mynotes-kojo-api",
+    "storage_bucket": "mynotes-kojo-api.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:222187166807:android:6e7de83f4613608ed81712",
+        "android_client_info": {
+          "package_name": "gh.eldakk.mynotes"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "222187166807-grehuidprrao98ofbasla8v9hk30q88i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCEPh1Rw5rSxz-jVnjhi19wyqX_kpjfGes"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "222187166807-grehuidprrao98ofbasla8v9hk30q88i.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
