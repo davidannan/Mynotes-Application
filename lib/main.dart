@@ -18,6 +18,7 @@ void main() {
     routes: {
       '/login/': (context) => const LoginView(),
       '/register/':(context) => const RegisterView(),
+      '/notes/':(context) => const NotesView(),
     },
   ));
 }
@@ -74,7 +75,8 @@ class _NotesViewState extends State<NotesView> {
               switch (value) {
                 
                 case MenuAction.logout:
-                  final shouldLogout = await showLogOutDialog(context);
+                  final shouldLogout = await 
+                  showLogOutDialog(context);
                   devtools.log(shouldLogout.toString());
                   if (shouldLogout) {
                     await FirebaseAuth.instance.signOut();
