@@ -1,3 +1,1 @@
-const loginRoute ='/login/';
-const registerRoute ='/register/';
-const notesRoute ='/notes/';
+// Will use here for routes to prvent hot codin
