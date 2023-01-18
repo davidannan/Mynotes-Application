@@ -61,7 +61,7 @@ class NotesView extends StatefulWidget {
   @override
   State<NotesView> createState() => _NotesViewState();
 }
-
+ 
 class _NotesViewState extends State<NotesView> {
   @override
   Widget build(BuildContext context) {
@@ -72,17 +72,19 @@ class _NotesViewState extends State<NotesView> {
           PopupMenuButton<MenuAction>(
             onSelected: (value) async {
               switch (value) {
-                
                 case MenuAction.logout:
                   final shouldLogout = await showLogOutDialog(context);
-                  devtools.log(shouldLogout.toString());
                   if (shouldLogout) {
-                    await FirebaseAuth.instance.signOut();
-                    Navigator.of(context).pushNamedAndRemoveUntil(
-                      '/login/',
-                       (_) => false);
+                   await FirebaseAuth.instance.signOut();
+                   if (context.mounted){
+                   Navigator.of(context).pushNamedAndRemoveUntil(
+                    '/login/', 
+                    (_) => false,
+                    );
+                    }
                   }
               }
+
             }, 
             itemBuilder: (context) {
             return const [
@@ -108,7 +110,7 @@ Future<bool> showLogOutDialog(BuildContext context) {
         content: const Text ('Are you sure you want to sign out'),
         actions: [
           TextButton(onPressed: () {
-            Navigator.of(context).pop(false);
+            Navigator.of(context).pop(false); 
           }, child: const Text('Cancel'),
           ),
           TextButton(onPressed: () {
