@@ -1,1 +1,3 @@
-// Will use here for routes to prvent hot codin
+const loginRoute = '/login/';
+const registerRoute = '/register/';
+const notesRoute = '/notes/';
