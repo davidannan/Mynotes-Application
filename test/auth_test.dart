@@ -31,7 +31,7 @@ void main() {
 
     test('Create user should delegate to logIn function', () async {
       final badEmailUser = provider.createUser(
-        email: 'kojo@adent.com',
+        email: 'kojo@bar.com',
         password: 'anypassword',
       );
 
@@ -44,7 +44,8 @@ void main() {
       );
 
       expect(badPasswordUser,
-          throwsA(const TypeMatcher<WrongPasswordAuthException>()));
+          throwsA(const TypeMatcher<WrongPasswordAuthException>())
+          );
 
       final user = await provider.createUser(
         email: 'foo',
