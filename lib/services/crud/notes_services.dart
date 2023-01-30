@@ -4,11 +4,23 @@ import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' show join;
 
 class DatabaseAlreadyOpenException implements Exception {}
+
 class UnableToGetDocumentsDirectory implements Exception {}
 
+class DatabaseIsNotOpen implements Exception {}
 
 class NotesService{
   Database? _db;
+
+Future<void> close() async {
+  final db =_db;
+  if (db == null) {
+    throw DatabaseIsNotOpen();
+  }else {
+    await db.close();
+    _db = null;
+  }
+}
 
   Future<void> open() async {
     if (_db != null){
