@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
@@ -11,9 +10,15 @@ import 'crud_exceptions.dart';
 class NotesService {
   Database? _db;
 
+List<DatabaseNote> _notes = [];
+
+final _notesStreamController =
+StreamController<List<DatabaseNote>>();
+
 
 Future<DatabaseNote> updateNote({
-  required DatabaseNote note, required String text}) async {
+  required DatabaseNote note, required String text}) 
+  async {
     final db = _getDatabaseOrThrow();
 
     await getNote(id: note.id);
@@ -23,8 +28,9 @@ Future<DatabaseNote> updateNote({
       isSyncedWithCloudColumn: 0,
     });
 
+    
     // ignore: unrelated_type_equality_checks
-    if(updatesCount == 0){
+    if(updatesCount == 0) {
       throw CouldNotUpdateNote();
     }else {
       return await getNote(id: note.id);
