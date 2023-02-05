@@ -15,10 +15,29 @@ List<DatabaseNote> _notes = [];
 final _notesStreamController =
 StreamController<List<DatabaseNote>>();
 
+Future<DatabaseUser> getOrCreateUser({required String email}) async {
+ try {
+  final user = await getUser(email: email);
+  return user;
+} on CouldNotFindUser {
+  final createdUser = await createUser(email: email);
+  return createdUser;
+} catch (e) {
+  rethrow;
+}
+}
+
+Future<void> _cacheNotes() async {
+  final allNotes = await getAllNotes();
+  _notes = allNotes.toList();
+  _notesStreamController.add(_notes);
+}
+
 
 Future<DatabaseNote> updateNote({
-  required DatabaseNote note, required String text}) 
-  async {
+  required DatabaseNote note,
+  required String text
+  }) async {
     final db = _getDatabaseOrThrow();
 
     await getNote(id: note.id);
@@ -28,12 +47,15 @@ Future<DatabaseNote> updateNote({
       isSyncedWithCloudColumn: 0,
     });
 
-    
     // ignore: unrelated_type_equality_checks
     if(updatesCount == 0) {
       throw CouldNotUpdateNote();
     }else {
-      return await getNote(id: note.id);
+      final updatedNote = await getNote(id: note.id);
+      _notes.removeWhere((notes) => note.id == updatedNote.id);
+      _notes.add(updatedNote);
+      _notesStreamController.add(_notes);
+    return updatedNote;
     }
   } 
 
@@ -58,13 +80,20 @@ Future<DatabaseNote> updateNote({
     if (notes.isEmpty) {
       throw CouldNoteFindNote();
     } else {
-      return DatabaseNote.fromRow(notes.first);
+     final note = DatabaseNote.fromRow(notes.first);
+     _notes.removeWhere((note) => note.id == id);
+     _notes.add(note);
+     _notesStreamController.add(_notes);
+     return note;
     }
   }
 
   Future<int> deletAllNotes() async {
     final db = _getDatabaseOrThrow();
-    return await db.delete(noteTable);
+    final numberOfDeletions = await db.delete(noteTable);
+    _notes = [];
+    _notesStreamController.add(_notes);
+    return numberOfDeletions;
   }
 
   Future<void> deleteNote({required int id}) async {
@@ -76,6 +105,9 @@ Future<DatabaseNote> updateNote({
     );
     if (deletedCount == 0) {
       throw CouldNoteDeleteNote();
+    } else {
+      _notes.removeWhere((note) => note.id == id);
+      _notesStreamController.add(_notes);
     }
   }
 
@@ -98,6 +130,9 @@ Future<DatabaseNote> updateNote({
       text: text,
       isSyncedWithCloud: true,
     );
+
+    _notes.add(note);
+    _notesStreamController.add(_notes);
 
     return note;
   }
@@ -183,8 +218,8 @@ Future<DatabaseNote> updateNote({
       // create the user table
       await db.execute(createUserTable);
       // create note table
-
       await db.execute(createNotesTable);
+      await _cacheNotes();
     } on MissingPlatformDirectoryException {
       throw UnableToGetDocumentsDirectory();
     }
