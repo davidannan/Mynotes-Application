@@ -22,7 +22,7 @@ class _NotesViewState extends State<NotesView> {
     _notesService = NotesService();
     super.initState();
   }
-
+  
   @override
   void dispose() {
     _notesService.close();
@@ -67,12 +67,20 @@ class _NotesViewState extends State<NotesView> {
         builder: (context, snapshot) {
           switch (snapshot.connectionState) {
              case ConnectionState.done:
-             return const Text('Your Notes will appear here');
+            return StreamBuilder(stream: _notesService.allNotes,
+            builder: (context, snapshot) {
+              switch (snapshot.connectionState) {
+                case ConnectionState.waiting:
+                  return const Text ('Waiting for all notes...');
+                default:
+                  return const CircularProgressIndicator();
+              }
+            }
+             );
            default:
            return const CircularProgressIndicator();
            
           }
-          
         
         }
       ),
