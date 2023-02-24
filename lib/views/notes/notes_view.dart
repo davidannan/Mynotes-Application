@@ -32,7 +32,7 @@ class _NotesViewState extends State<NotesView> {
         title: const Text('Your Notes'),
         actions:[
           IconButton(onPressed: (){
-            Navigator.of(context).pushNamed(newNoteRoute);
+            Navigator.of(context).pushNamed(CreateOrUpdateRoute);
           }, 
           icon: const Icon(Icons.add)
           ),
