@@ -42,7 +42,7 @@ void _setupTextControllerListener() {
 }
 
 
-  Future<DatabaseNote> createNewNote() async {
+  Future<DatabaseNote> createOrGetExistingNote() async {
     final existingNote = _note;
     if (existingNote != null) {
       return existingNote;
@@ -84,7 +84,7 @@ void _setupTextControllerListener() {
     return Scaffold(
         appBar: AppBar(title: const Text('New Note')),
         body: FutureBuilder(
-          future: createNewNote(),
+          future: createOrGetExistingNote(),
           builder:(context, snapshot) {
             switch (snapshot.connectionState){
               case ConnectionState.done:
