@@ -59,7 +59,7 @@ Future<DatabaseNote> updateNote({
       isSyncedWithCloudColumn: 0,
     });
 
-    // ignore: unrelated_type_equality_checks
+    
     if(updatesCount == 0) {
       throw CouldNotUpdateNote();
     }else {
