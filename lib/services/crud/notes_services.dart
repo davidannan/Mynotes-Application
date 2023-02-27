@@ -54,7 +54,7 @@ Future<DatabaseNote> updateNote({
 
     await getNote(id: note.id);
 
-    final updatesCount = db.update(noteTable, {
+    final updatesCount = await db.update(noteTable, {
       textColumn: text,
       isSyncedWithCloudColumn: 0,
     });
