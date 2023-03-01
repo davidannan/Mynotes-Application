@@ -5,7 +5,7 @@ import 'package:mynotes/services/auth/auth_service.dart';
 import 'package:mynotes/utilities/dialogs/error_dialog.dart';
 
 class LoginView extends StatefulWidget {
-  const LoginView({Key? key}) : super(key: key);
+  const LoginView({super.key});
 
   @override
   State<LoginView> createState() => _LoginViewState();
@@ -32,9 +32,7 @@ class _LoginViewState extends State<LoginView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Login'),
-      ),
+      appBar: AppBar(title: const Text('Login')),
       body: Column(
         children: [
           TextField(
@@ -64,40 +62,40 @@ class _LoginViewState extends State<LoginView> {
                   email: email,
                   password: password,
                 );
-                final user = AuthService.firebase().currentUser;
-                if (user?.isEmailVerified ?? false) {
-                  // user's email is verified
-                  if(context.mounted){
+                final  user = AuthService.firebase().currentUser;
+                if (user?.isEmailVerified ?? false){
+                    if (context.mounted) {
                   Navigator.of(context).pushNamedAndRemoveUntil(
                     notesRoute,
                     (route) => false,
                   );
-                  
-                } else {
-                  // user's email is NOT verified
+                }
+                } else{
+                         if (context.mounted) {
                   Navigator.of(context).pushNamedAndRemoveUntil(
                     verifyEmailRoute,
                     (route) => false,
                   );
+                }  
                 }
-                }
+                
               } on UserNotFoundAuthException {
-                await showErrorDialog(
-                  context,
-                  'User not found',
-                );
-              } on WrongPasswordAuthException {
-                await showErrorDialog(
-                  context,
-                  'Wrong credentials',
-                );
-              } on GenericAuthException {
-                await showErrorDialog(
-                  context,
-                  'Authentication error',
-                );
-              }
-            },
+                  await showErrorDialog(
+                    context,
+                    'User Not Found',
+                  );
+                } on WrongPasswordAuthException{
+                  await showErrorDialog(
+                    context,
+                    'Wrong Username or Password',
+                  );
+                } on GenericAuthException{
+                  await showErrorDialog(
+                    context,
+                   'Authentication error'
+                   );
+                }
+              },
             child: const Text('Login'),
           ),
           TextButton(
@@ -107,7 +105,7 @@ class _LoginViewState extends State<LoginView> {
                 (route) => false,
               );
             },
-            child: const Text('Not registered yet? Register here!'),
+            child: const Text('Not reistered yet? Register here!'),
           )
         ],
       ),
