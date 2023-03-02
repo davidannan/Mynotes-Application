@@ -3,7 +3,7 @@ import 'package:mynotes/constants/routes.dart';
 import 'package:mynotes/enums/menu_action.dart';
 import 'package:mynotes/services/auth/auth_service.dart';
 import 'package:mynotes/utilities/dialogs/logout_dialog.dart';
-import '../../services/crud/notes_services.dart';
+import '../../services/crud/notes_service.dart';
 import 'notes_list_view.dart';
 
 class NotesView extends StatefulWidget {
