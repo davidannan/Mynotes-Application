@@ -92,7 +92,7 @@ Future<DatabaseNote> updateNote({
       whereArgs: [id],
     );
     if (notes.isEmpty) {
-      throw CouldNoteFindNote();
+      throw CouldNotFindNote();
     } else {
      final note = DatabaseNote.fromRow(notes.first);
      _notes.removeWhere((note) => note.id == id);
@@ -120,7 +120,7 @@ Future<DatabaseNote> updateNote({
       whereArgs: [id],
     );
     if (deletedCount == 0) {
-      throw CouldNoteDeleteNote();
+      throw CouldNotDeleteNote();
     } else {
       _notes.removeWhere((note) => note.id == id);
       _notesStreamController.add(_notes);
