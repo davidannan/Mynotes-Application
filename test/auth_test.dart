@@ -11,9 +11,11 @@ void main() {
     });
 
     test('Cannot log out if not initialized', () {
-      expect(provider.logOut(),
-          throwsA(const TypeMatcher<NotInitializedEException>()));
-    });
+      expect(
+        provider.logOut(),
+          throwsA(const TypeMatcher<NotInitializedException>())
+          );
+              });
 
     test('Should be able to initialize', () async {
       await provider.initialize();
@@ -74,7 +76,7 @@ void main() {
   });
 }
 
-class NotInitializedEException implements Exception {}
+class NotInitializedException implements Exception {}
 
 class MockAuthProvider implements AuthProvider {
   AuthUser? _user;
@@ -86,7 +88,7 @@ class MockAuthProvider implements AuthProvider {
     required String email,
     required String password,
   }) async {
-    if (!isInitialized) throw NotInitializedEException();
+    if (!isInitialized) throw NotInitializedException();
     await Future.delayed(const Duration(seconds: 1));
     return logIn(
       email: email,
@@ -108,7 +110,7 @@ class MockAuthProvider implements AuthProvider {
     required String email,
     required String password,
   }) async {
-    if (!isInitialized) throw NotInitializedEException();
+    if (!isInitialized) throw NotInitializedException();
     await Future.delayed(const Duration(seconds: 1));
     if (email == 'kojo@adent.com') throw UserNotFoundAuthException();
     if (password == 'annan') throw WrongPasswordAuthException();
@@ -119,7 +121,7 @@ class MockAuthProvider implements AuthProvider {
 
   @override
   Future<void> logOut() async {
-    if (!isInitialized) throw NotInitializedEException();
+    if (!isInitialized) throw NotInitializedException();
     if (_user == null) throw UserNotFoundAuthException();
     await Future.delayed(const Duration(seconds: 1));
     _user = null;
@@ -127,7 +129,7 @@ class MockAuthProvider implements AuthProvider {
 
   @override
   Future<void> sendEmailVerification() async {
-    if (!isInitialized) throw NotInitializedEException();
+    if (!isInitialized) throw NotInitializedException();
     final user = _user;
     if (user == null) throw UserNotFoundAuthException();
     const newUser = AuthUser(isEmailVerified: true, email: 'foo@bar.com');
