@@ -11,7 +11,7 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(
     MaterialApp(
-    title: 'My NOTES',
+    title: 'My NOTES V 1.01',
     theme: ThemeData(
       primarySwatch: Colors.blue,
     ),
@@ -47,7 +47,7 @@ class HomePage extends StatelessWidget {
                 } else {
                   return const LoginView();
                 }
-                
+            
               default:
                 return const CircularProgressIndicator();
             }
