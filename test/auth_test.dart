@@ -17,7 +17,7 @@ void main() {
           );
               });
 
-    test('Should be able to initialize', () async {
+    test('Should be able to be initialize', () async {
       await provider.initialize();
       expect(provider.isInitialized, true);
     });
@@ -29,11 +29,13 @@ void main() {
     test('Should be able to initialize in less than 2 seconds', () async {
       await provider.initialize();
       expect(provider.isInitialized, true);
-    }, timeout: const Timeout(Duration(seconds: 2)));
+    }, 
+    timeout: const Timeout(Duration(seconds: 2)),
+    );
 
     test('Create user should delegate to logIn function', () async {
       final badEmailUser = provider.createUser(
-        email: 'kojo@bar.com',
+        email: 'foo@bar.com',
         password: 'anypassword',
       );
 
@@ -112,8 +114,8 @@ class MockAuthProvider implements AuthProvider {
   }) async {
     if (!isInitialized) throw NotInitializedException();
     await Future.delayed(const Duration(seconds: 1));
-    if (email == 'kojo@adent.com') throw UserNotFoundAuthException();
-    if (password == 'annan') throw WrongPasswordAuthException();
+    if (email == 'foo@bar.com') throw UserNotFoundAuthException();
+    if (password == 'foobar') throw WrongPasswordAuthException();
     const user = AuthUser(isEmailVerified: false, email: 'foo@bar.com');
     _user = user;
     return Future.value(user);
