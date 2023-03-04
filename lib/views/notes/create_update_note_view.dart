@@ -41,7 +41,6 @@ void _setupTextControllerListener() {
 
 }
 
-
   Future<DatabaseNote> createOrGetExistingNote(BuildContext context) async {
 
     final widgetNote = context.getArgument<DatabaseNote>();
